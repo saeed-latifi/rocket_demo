@@ -1,4 +1,5 @@
 use crate::db::schema::users::*;
+use crate::model::user::UserUpdate;
 use crate::{
     db::connection::establish_connection,
     model::user::{GetUser, NewUser},
@@ -35,13 +36,12 @@ pub fn create_user(new_user: &NewUser) -> Result<GetUser, Error> {
         .get_result(connection)
 }
 
-// TODO optional field update
-pub fn update_user(user_id: i32) -> Result<GetUser, Error> {
+pub fn update_user(user_id: i32, update_data: &UserUpdate) -> Result<GetUser, Error> {
     let connection = &mut establish_connection();
 
     diesel::update(table)
         .filter(id.eq(user_id))
-        .set(is_active.eq(true))
+        .set(update_data)
         .returning(GetUser::as_select())
         .get_result(connection)
 }

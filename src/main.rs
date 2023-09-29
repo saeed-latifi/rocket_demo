@@ -1,20 +1,29 @@
-use proji::{
-    model::user::NewUser,
-    provider::user::{create_user, delete_user},
-};
+use proji::provider::user::get_users_list;
 
 fn main() {
-    let new_user = NewUser {
-        password: "987",
-        username: "987",
-    };
-    let _ = new_user;
+    // create user
+    // let new_user = NewUser {
+    //     password: "987",
+    //     username: "987",
+    // };
+    // let _ = new_user;
 
-    let new_user = create_user(&new_user);
-    match new_user {
-        Ok(v) => println!("user : {:?} created !", v),
-        Err(_) => println!("create user failed!"),
-    }
+    // let new_user = create_user(&new_user);
+    // match new_user {
+    //     Ok(v) => println!("user : {:?} created !", v),
+    //     Err(_) => println!("create user failed!"),
+    // }
+
+    // let update_info: UserUpdate = UserUpdate {
+    //     password: Some("98754"),
+    //     username: Some("wow"),
+    // };
+
+    // let updated_user = update_user(4, &update_info);
+    // match updated_user {
+    //     Ok(v) => println!("user : {:?} updated !", v),
+    //     Err(e) => println!("update user failed! {}", e),
+    // }
 
     // delete user
     // let user = delete_user(3);
@@ -31,14 +40,14 @@ fn main() {
     // }
 
     // get users
-    // let users = get_users_list(20, 0);
-    // match users {
-    //     Ok(v) => {
-    //         println!("its list of items {:?} !", v);
-    //         for item in v.into_iter() {
-    //             println!("updatet user is {} with id : {}", item.username, item.id)
-    //         }
-    //     }
-    //     Err(_) => println!("update user failed!"),
-    // }
+    let users = get_users_list(20, 0);
+    match users {
+        Ok(v) => {
+            // println!("its list of items {:?} !", v);
+            for item in v.into_iter() {
+                println!("updated user is {} with id : {}", item.username, item.id)
+            }
+        }
+        Err(_) => println!("update user failed!"),
+    }
 }
