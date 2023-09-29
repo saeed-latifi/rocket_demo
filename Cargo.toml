@@ -5,4 +5,10 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+name="proji"
+path="src/lib.rs"
+
 [dependencies]
+diesel = { version = "2.1.1", features = ["postgres"] }
+dotenvy = "0.15.7"
