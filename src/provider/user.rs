@@ -2,55 +2,55 @@ use crate::db::schema::users::*;
 use crate::model::user::UserUpdate;
 use crate::{
     db::connection::establish_connection,
-    model::user::{GetUser, NewUser},
+    model::user::{UserGet, UserNew},
 };
 use diesel::result::Error;
 use diesel::*;
 
-pub fn get_users_list(take: i64, skip: i64) -> Result<Vec<GetUser>, Error> {
+pub fn get_users_list(take: i64, skip: i64) -> Result<Vec<UserGet>, Error> {
     let connection = &mut establish_connection();
 
     table
         .limit(take)
         .order(id)
         .offset(skip)
-        .select(GetUser::as_returning())
+        .select(UserGet::as_returning())
         .load(connection)
 }
 
-pub fn get_user(user_id: i32) -> Result<GetUser, Error> {
+pub fn get_user(user_id: i32) -> Result<UserGet, Error> {
     let connection = &mut establish_connection();
 
     table
         .find(user_id)
-        .select(GetUser::as_select())
+        .select(UserGet::as_select())
         .first(connection)
 }
 
-pub fn create_user(new_user: &NewUser) -> Result<GetUser, Error> {
+pub fn create_user(new_user: &UserNew) -> Result<UserGet, Error> {
     let connection = &mut establish_connection();
 
     diesel::insert_into(table)
         .values(new_user)
-        .returning(GetUser::as_returning())
+        .returning(UserGet::as_returning())
         .get_result(connection)
 }
 
-pub fn update_user(user_id: i32, update_data: &UserUpdate) -> Result<GetUser, Error> {
+pub fn update_user(user_id: i32, update_data: &UserUpdate) -> Result<UserGet, Error> {
     let connection = &mut establish_connection();
 
     diesel::update(table)
         .filter(id.eq(user_id))
         .set(update_data)
-        .returning(GetUser::as_select())
+        .returning(UserGet::as_select())
         .get_result(connection)
 }
 
-pub fn delete_user(user_id: i32) -> Result<GetUser, Error> {
+pub fn delete_user(user_id: i32) -> Result<UserGet, Error> {
     let connection = &mut establish_connection();
 
     diesel::delete(table)
         .filter(id.eq(user_id))
-        .returning(GetUser::as_select())
+        .returning(UserGet::as_select())
         .get_result(connection)
 }

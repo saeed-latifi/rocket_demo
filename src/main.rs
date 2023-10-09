@@ -1,8 +1,8 @@
-use proji::provider::user::get_users_list;
+use proji::provider::books::get_books_by_user_id;
 
 fn main() {
     // create user
-    // let new_user = NewUser {
+    // let new_user = UserNew {
     //     password: "987",
     //     username: "987",
     // };
@@ -40,14 +40,26 @@ fn main() {
     // }
 
     // get users
-    let users = get_users_list(20, 0);
-    match users {
-        Ok(v) => {
-            // println!("its list of items {:?} !", v);
-            for item in v.into_iter() {
-                println!("updated user is {} with id : {}", item.username, item.id)
+    // let users = get_users_list(20, 0);
+    // match users {
+    //     Ok(v) => {
+    //         // println!("its list of items {:?} !", v);
+    //         for item in v.into_iter() {
+    //             println!("updated user is {} with id : {}", item.username, item.id)
+    //         }
+    //     }
+    //     Err(_) => println!("update user failed!"),
+    // }
+
+    let books = get_books_by_user_id(1);
+
+    match books {
+        Ok(res) => {
+            for book in res.into_iter() {
+                println!("{:?}", book)
             }
         }
-        Err(_) => println!("update user failed!"),
+
+        Err(e) => println!("err : {:?}", e),
     }
 }
