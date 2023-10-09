@@ -1,5 +1,6 @@
 use crate::db::schema::users;
 use diesel::prelude::*;
+use serde::Serialize;
 
 #[derive(Queryable, Identifiable, Selectable, Debug, PartialEq)]
 #[diesel(table_name = users,check_for_backend(diesel::pg::Pg))]
@@ -10,13 +11,13 @@ pub struct User {
     pub is_active: bool,
 }
 
-#[derive(Queryable, Selectable, Debug, PartialEq)]
+#[derive(Queryable, Selectable, Debug, PartialEq, Serialize)]
 #[diesel(table_name = users,check_for_backend(diesel::pg::Pg))]
 pub struct UserGet {
     pub id: i32,
     pub username: String,
-    pub password: String,
-    pub is_active: bool,
+    // pub password: String,
+    // pub is_active: bool,
 }
 
 #[derive(AsChangeset)]
