@@ -1,24 +1,20 @@
 #[macro_use]
 extern crate rocket;
 
-use proji::provider::user::UserProvider;
-use rocket::{
-    fs::{relative, FileServer},
-    serde::json::{json, Value},
+use blog::{
+    db::connection::DBConnection,
+    routes::{
+        greet::{greet, greet_with_name},
+        user::get_list,
+    },
 };
-
-#[get("/")]
-fn index() -> Value {
-    let res = UserProvider::get_list(100, 0);
-    match res {
-        Ok(users) => json!(users),
-        Err(_) => json!("internal server error"),
-    }
-}
+use rocket::fs::{relative, FileServer};
 
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index])
         .mount("/", FileServer::from(relative!("public")))
+        .mount("/", routes![greet, greet_with_name])
+        .mount("/user", routes![get_list,])
+        .attach(DBConnection::fairing())
 }

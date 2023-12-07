@@ -26,3 +26,6 @@ ctrlc   = true
 signals = ["term", "hup"]
 grace   = 5
 mercy   = 5
+
+[global.databases]
+postgresConnection = { url = "postgres://postgres:1234@localhost/diesel_demo" }

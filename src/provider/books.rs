@@ -1,16 +1,14 @@
 use diesel::{result::Error, *};
 
 use crate::{
-    db::{
-        connection::establish_connection,
-        schema::{books, users},
-    },
+    db::schema::{books, users},
     model::{books::BookGet, user::UserGet},
 };
 
-pub fn get_books_by_user_id(user_id: i32) -> Result<Vec<(BookGet, UserGet)>, Error> {
-    let connection = &mut establish_connection();
-
+pub fn get_books_by_user_id(
+    connection: &mut PgConnection,
+    user_id: i32,
+) -> Result<Vec<(BookGet, UserGet)>, Error> {
     // simple way!
     // books::table
     //     .filter(books::user_id.eq(user_id))
