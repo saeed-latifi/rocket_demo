@@ -1,0 +1,2 @@
+must define DATABASE_URL in .env file for postgresql
+and replace libintel-9 fill : this  older version c library have some issue in creating db pool in runtime and its not any rust issue
